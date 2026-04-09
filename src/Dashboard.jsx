@@ -1,3 +1,4 @@
+import SatisFormu from './SatisFormu'
 import SatisciEkrani from './SatisciEkrani'
 import EksikBilgiler from './EksikBilgiler'
 import OnayKuyrugu from './OnayKuyrugu'
@@ -19,12 +20,34 @@ export default function Dashboard({ profile, onLogout }) {
       </div>
 
       {profile.role === 'yonetici' && <YoneticiEkrani profile={profile} />}
-      {profile.role === 'satis' && <SatisciEkrani profile={profile} />}
+      {profile.role === 'satis' && <SatisciWrapper profile={profile} />}
       {profile.role === 'tahsilat' && <TahsilatciEkrani profile={profile} />}
     </div>
   )
 }
-
+function SatisciWrapper({ profile }) {
+  const [showForm, setShowForm] = useState(false)
+  if (showForm) return (
+    <div>
+      <button onClick={() => setShowForm(false)}
+        style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#888', border: 'none', background: 'none', cursor: 'pointer', marginBottom: '1rem', padding: '0' }}>
+        ← Geri
+      </button>
+      <SatisFormu profile={profile} onClose={(saved) => { setShowForm(false) }} />
+    </div>
+  )
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+        <button onClick={() => setShowForm(true)}
+          style={{ padding: '9px 18px', fontSize: '13px', fontWeight: '500', border: 'none', borderRadius: '8px', background: '#1a1a1a', color: 'white', cursor: 'pointer' }}>
+          + Yeni satış
+        </button>
+      </div>
+      <SatisciEkrani profile={profile} />
+    </div>
+  )
+}
 function YoneticiEkrani({ profile }) {
   const [activeTab, setActiveTab] = useState('rapor')
 
