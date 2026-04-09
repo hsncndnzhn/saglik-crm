@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import FiyatListesi from './FiyatListesi'
 export default function Dashboard({ profile, onLogout }) {
   return (
     <div style={{padding:'1.5rem',maxWidth:'900px',margin:'0 auto'}}>
@@ -19,25 +21,32 @@ export default function Dashboard({ profile, onLogout }) {
 }
 
 function YoneticiEkrani({ profile }) {
+  const [activeTab, setActiveTab] = useState('fiyat')
+
+  const tabs = [
+    { id: 'fiyat', label: 'Fiyat Listesi' },
+    { id: 'rapor', label: 'Ana Rapor' },
+    { id: 'onay', label: 'Onay Kuyruğu' },
+    { id: 'hedef', label: 'Hedef Girişi' },
+    { id: 'eksik', label: 'Eksik Bilgiler' },
+  ]
+
   return (
     <div>
-      <h2 style={{fontSize:'16px',fontWeight:'500',marginBottom:'1rem'}}>Yönetici Paneli</h2>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'10px',marginBottom:'1.5rem'}}>
-        {[
-          {label:'Bugün satış',val:'—'},
-          {label:'Beklenen tahsilat',val:'—'},
-          {label:'Gerçekleşen tahsilat',val:'—'},
-          {label:'Vadesi geçmiş',val:'—'},
-        ].map(m=>(
-          <div key={m.label} style={{background:'#f9f9f9',border:'1px solid #eee',borderRadius:'10px',padding:'12px 14px'}}>
-            <div style={{fontSize:'11px',color:'#888',marginBottom:'4px'}}>{m.label}</div>
-            <div style={{fontSize:'20px',fontWeight:'500'}}>{m.val}</div>
-          </div>
+      <div style={{ display: 'flex', gap: '4px', marginBottom: '1.5rem', borderBottom: '1px solid #eee', paddingBottom: '0' }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setActiveTab(t.id)}
+            style={{ padding: '8px 16px', fontSize: '13px', fontWeight: activeTab === t.id ? '500' : '400', border: 'none', borderBottom: activeTab === t.id ? '2px solid #1a1a1a' : '2px solid transparent', background: 'none', cursor: 'pointer', color: activeTab === t.id ? '#1a1a1a' : '#888', marginBottom: '-1px' }}>
+            {t.label}
+          </button>
         ))}
       </div>
-      <div style={{background:'#f9f9f9',border:'1px solid #eee',borderRadius:'10px',padding:'14px',color:'#888',fontSize:'13px',textAlign:'center'}}>
-        Ekranlar geliştiriliyor — veriler bağlandıkça burada görünecek.
-      </div>
+      {activeTab === 'fiyat' && <FiyatListesi />}
+      {activeTab !== 'fiyat' && (
+        <div style={{ color: '#888', fontSize: '13px', textAlign: 'center', padding: '2rem' }}>
+          Bu sekme geliştiriliyor.
+        </div>
+      )}
     </div>
   )
 }
