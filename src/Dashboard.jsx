@@ -25,15 +25,15 @@ export default function Dashboard({ profile, onLogout }) {
 }
 
 function YoneticiEkrani({ profile }) {
-  const [activeTab, setActiveTab] = useState('fiyat')
+  const [activeTab, setActiveTab] = useState('rapor')
 
   const tabs = [
-    { id: 'fiyat', label: 'Fiyat Listesi' },
-    { id: 'rapor', label: 'Ana Rapor' },
-    { id: 'onay', label: 'Onay Kuyruğu' },
-    { id: 'hedef', label: 'Hedef Girişi' },
-    { id: 'eksik', label: 'Eksik Bilgiler' },
-  ]
+  { id: 'rapor', label: 'Ana Rapor' },
+  { id: 'onay', label: 'Onay Kuyruğu' },
+  { id: 'hedef', label: 'Hedef Girişi' },
+  { id: 'fiyat', label: 'Fiyat Listesi' },
+  { id: 'eksik', label: 'Eksik Bilgiler' },
+]
 
   return (
     <div>
