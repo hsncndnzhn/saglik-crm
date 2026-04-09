@@ -1,3 +1,6 @@
+import EksikBilgiler from './EksikBilgiler'
+import OnayKuyrugu from './OnayKuyrugu'
+import HedefGirisi from './HedefGirisi'
 import AnaRapor from './AnaRapor'
 import { useState } from 'react'
 import FiyatListesi from './FiyatListesi'
@@ -44,6 +47,9 @@ function YoneticiEkrani({ profile }) {
       </div>
       {activeTab === 'fiyat' && <FiyatListesi />}
       {activeTab === 'rapor' && <AnaRapor />}
+      {activeTab === 'hedef' && <HedefGirisi />}
+      {activeTab === 'onay' && <OnayKuyrugu />}
+      {activeTab === 'eksik' && <EksikBilgiler />}
       {activeTab !== 'fiyat' && (
         <div style={{ color: '#888', fontSize: '13px', textAlign: 'center', padding: '2rem' }}>
           Bu sekme geliştiriliyor.
