@@ -25,7 +25,7 @@ function App() {
   async function loadProfile(uid) {
   const { data, error } = await supabase
     .from('users')
-    .select('full_name, role, agency_id')
+    .select('id, full_name, role, agency_id')
     .eq('id', uid)
     .single()
   console.log('profile:', data, 'error:', error)

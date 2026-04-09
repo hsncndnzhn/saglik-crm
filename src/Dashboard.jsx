@@ -1,3 +1,4 @@
+import SatisciEkrani from './SatisciEkrani'
 import EksikBilgiler from './EksikBilgiler'
 import OnayKuyrugu from './OnayKuyrugu'
 import HedefGirisi from './HedefGirisi'
@@ -55,17 +56,6 @@ function YoneticiEkrani({ profile }) {
           Bu sekme geliştiriliyor.
         </div>
       )}
-    </div>
-  )
-}
-
-function SatisciEkrani({ profile }) {
-  return (
-    <div>
-      <h2 style={{fontSize:'16px',fontWeight:'500',marginBottom:'1rem'}}>Merhaba, {profile.full_name}</h2>
-      <div style={{background:'#f9f9f9',border:'1px solid #eee',borderRadius:'10px',padding:'14px',color:'#888',fontSize:'13px',textAlign:'center'}}>
-        Satışçı ekranı geliştiriliyor.
-      </div>
     </div>
   )
 }
