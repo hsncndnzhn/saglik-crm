@@ -1,3 +1,4 @@
+import AnaRapor from './AnaRapor'
 import { useState } from 'react'
 import FiyatListesi from './FiyatListesi'
 export default function Dashboard({ profile, onLogout }) {
@@ -42,6 +43,7 @@ function YoneticiEkrani({ profile }) {
         ))}
       </div>
       {activeTab === 'fiyat' && <FiyatListesi />}
+      {activeTab === 'rapor' && <AnaRapor />}
       {activeTab !== 'fiyat' && (
         <div style={{ color: '#888', fontSize: '13px', textAlign: 'center', padding: '2rem' }}>
           Bu sekme geliştiriliyor.
