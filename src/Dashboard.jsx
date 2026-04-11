@@ -1,3 +1,4 @@
+import TahsilatciEkrani from './TahsilatciEkrani'
 import SatisFormu from './SatisFormu'
 import SatisciEkrani from './SatisciEkrani'
 import EksikBilgiler from './EksikBilgiler'
@@ -83,13 +84,3 @@ function YoneticiEkrani({ profile }) {
   )
 }
 
-function TahsilatciEkrani({ profile }) {
-  return (
-    <div>
-      <h2 style={{fontSize:'16px',fontWeight:'500',marginBottom:'1rem'}}>Merhaba, {profile.full_name}</h2>
-      <div style={{background:'#f9f9f9',border:'1px solid #eee',borderRadius:'10px',padding:'14px',color:'#888',fontSize:'13px',textAlign:'center'}}>
-        Tahsilatçı ekranı geliştiriliyor.
-      </div>
-    </div>
-  )
-}
