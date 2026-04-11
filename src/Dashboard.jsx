@@ -1,3 +1,4 @@
+import EksikBilgiSatisci from './EksikBilgiSatisci'
 import TahsilatciEkrani from './TahsilatciEkrani'
 import SatisFormu from './SatisFormu'
 import SatisciEkrani from './SatisciEkrani'
@@ -28,18 +29,35 @@ export default function Dashboard({ profile, onLogout }) {
 }
 function SatisciWrapper({ profile }) {
   const [showForm, setShowForm] = useState(false)
+  const [showEksik, setShowEksik] = useState(false)
+
   if (showForm) return (
     <div>
       <button onClick={() => setShowForm(false)}
         style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#888', border: 'none', background: 'none', cursor: 'pointer', marginBottom: '1rem', padding: '0' }}>
         ← Geri
       </button>
-      <SatisFormu profile={profile} onClose={(saved) => { setShowForm(false) }} />
+      <SatisFormu profile={profile} onClose={() => setShowForm(false)} />
     </div>
   )
+
+  if (showEksik) return (
+    <div>
+      <button onClick={() => setShowEksik(false)}
+        style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#888', border: 'none', background: 'none', cursor: 'pointer', marginBottom: '1rem', padding: '0' }}>
+        ← Geri
+      </button>
+      <EksikBilgiSatisci profile={profile} />
+    </div>
+  )
+
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+        <button onClick={() => setShowEksik(true)}
+          style={{ padding: '9px 18px', fontSize: '13px', fontWeight: '500', border: '1px solid #ddd', borderRadius: '8px', background: 'white', color: '#555', cursor: 'pointer' }}>
+          Eksik Bilgiler
+        </button>
         <button onClick={() => setShowForm(true)}
           style={{ padding: '9px 18px', fontSize: '13px', fontWeight: '500', border: 'none', borderRadius: '8px', background: '#1a1a1a', color: 'white', cursor: 'pointer' }}>
           + Yeni satış
