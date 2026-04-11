@@ -8,6 +8,8 @@ export default function SatisciEkrani({ profile }) {
   const [patientRows, setPatientRows] = useState([])
   const [recentSales, setRecentSales] = useState([])
   const [overdueInsts, setOverdueInsts] = useState([])
+  const [agencyTotal, setAgencyTotal] = useState({ sales: 0, collected: 0 })
+  const [countryTotal, setCountryTotal] = useState({ sales: 0, collected: 0 })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => { if (profile?.id) loadData() }, [profile])
@@ -112,6 +114,35 @@ export default function SatisciEkrani({ profile }) {
     setPatientRows(patientRows)
     setRecentSales((salesData || []).slice(0, 5))
     setOverdueInsts(overdue)
+    // Acente toplamları
+const { data: agencySales } = await supabase
+  .from('sales')
+  .select('sale_price_eur, user_id, users!inner(agency_id)')
+  .eq('users.agency_id', profile.agency_id)
+  .eq('status', 'onaylandi')
+
+const agencySalesAmt = (agencySales || []).reduce((s, x) => s + Number(x.sale_price_eur || 0), 0)
+
+// Ülke toplamları
+const { data: countrySales } = await supabase
+  .from('sales')
+  .select('sale_price_eur, users!inner(agencies!inner(country_id))')
+  .eq('status', 'onaylandi')
+
+// Ülke id'sini bul
+const { data: agencyData } = await supabase
+  .from('agencies')
+  .select('country_id')
+  .eq('id', profile.agency_id)
+  .single()
+
+const countryId = agencyData?.country_id
+const countrySalesAmt = (countrySales || [])
+  .filter(s => s.users?.agencies?.country_id === countryId)
+  .reduce((s, x) => s + Number(x.sale_price_eur || 0), 0)
+
+setAgencyTotal({ sales: agencySalesAmt, collected: 0 })
+setCountryTotal({ sales: countrySalesAmt, collected: 0 })
     setLoading(false)
   }
 
@@ -236,7 +267,22 @@ export default function SatisciEkrani({ profile }) {
           </div>
         </div>
       )}
-
+{/* ACENTE & ÜLKE DİP TOPLAMLAR */}
+<div style={{ marginBottom: '1.25rem' }}>
+  <div style={{ fontSize: '11px', fontWeight: '500', color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+    Bu ay — acente & ülke toplamları
+  </div>
+  <div style={{ background: 'white', border: '1px solid #eee', borderRadius: '10px', padding: '12px 14px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', padding: '4px 0', borderBottom: '1px solid #f5f5f5' }}>
+      <span style={{ color: '#888' }}>Acente satış toplamı</span>
+      <span style={{ fontWeight: '500' }}>{fmt(agencyTotal.sales)} EUR</span>
+    </div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', padding: '4px 0' }}>
+      <span style={{ color: '#888' }}>Ülke satış toplamı</span>
+      <span style={{ fontWeight: '500' }}>{fmt(countryTotal.sales)} EUR</span>
+    </div>
+  </div>
+</div>
       {/* SON SATIŞLAR */}
       <div>
         <div style={{ fontSize: '11px', fontWeight: '500', color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
